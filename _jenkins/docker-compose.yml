@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  jenkins:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: demo_cicd_k8s_jenkins_jenkins
+    container_name: jenkins
+    restart: unless-stopped
+    volumes:
+      - jenkins_volume:/var/jenkins_home
+    ports:
+      - 80:8080
+volumes:
+  jenkins_volume:
+    driver: local

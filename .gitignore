@@ -1,0 +1,14 @@
+# general
+.DS_Store
+Thumbs.db
+~*
+
+# python
+*.pyc
+__pycache__/
+
+# credentials
+/dockerhub_password.txt
+/dockerhost_password.txt
+/kubeconfig
+/k8s/dockerhub_secret.yml
