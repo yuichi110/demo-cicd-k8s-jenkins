@@ -12,7 +12,7 @@ pipeline {
         sh "test -e /secrets/dockerhub_password.txt"
         sh "test -e /secrets/dockerhost_password.txt"
         sh "test -e /secrets/kubeconfig"
-        sh "test -e /secrets/k8s/dockerhub_secret.yml"
+        sh "test -e /secrets/dockerhub_secret.yml"
       }
     }
 
