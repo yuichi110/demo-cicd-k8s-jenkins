@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: back
+  name: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - image: {{DOCKERHUB_USER}}/demo-cicd-k8s-jenkins-back:{{BUILD_TIMESTAMP}}
+        name: demo-cicd-k8s-jenkins-back
+        env:
+        - name: DEBUG
+          value: "true"
+        - name: REDIS_HOST
+          value: db
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DB
+          value: "0"

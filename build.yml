@@ -1,12 +1,14 @@
 version: '3.7'
 services:
-  web: 
+
+  front: 
     build:
       context: ./front
       dockerfile: Dockerfile
     image: demo-cicd-k8s-jenkins-front:latest
-  app:
+    
+  back:
     build:
       context: ./back
       dockerfile: Dockerfile
-    image: demo-cicd-k8s-jenkins-front:latest
+    image: demo-cicd-k8s-jenkins-back:latest

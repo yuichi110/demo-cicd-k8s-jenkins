@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: front
+  name: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - image: {{DOCKERHUB_USER}}/demo-cicd-k8s-jenkins-front:{{BUILD_TIMESTAMP}}
+        name: demo-cicd-k8s-jenkins-front
+        env:
+        - name: PORT
+          value: "80"
+        - name: APP_SERVER
+          value: "http://back:80"
