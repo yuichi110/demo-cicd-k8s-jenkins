@@ -1,0 +1,61 @@
+- hosts: all
+  remote_user: root
+  tasks:
+
+    - name: Make .ssh
+      file: 
+        dest: /root/.ssh/ 
+        state: directory
+
+    - name: Check ssh key exist
+      stat:
+        path: /root/.ssh/id_rsa
+      register: ssh_key
+
+    - name: Generate ssh key if not exist
+      shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
+      when: not ssh_key.stat.exists
+      
+    - name: Add k8s apt key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Add k8s apt repository
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+
+    - name: Add helm apt key
+      apt_key:
+        url: https://baltocdn.com/helm/signing.asc
+        state: present
+
+    - name: Add helm apt repository
+      apt_repository:
+        repo: deb https://baltocdn.com/helm/stable/debian/ all main
+
+    - name: apt install
+      apt:
+        update_cache: yes
+        name:
+        - aptitude
+        - git
+        - curl
+        - python3
+        - python3-pip
+        - docker-compose
+        - kubectl
+        - conntrack
+
+    - name: Start/Enable docker
+      systemd:
+        name: docker
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+
+    - name: Download minikube
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: 0111

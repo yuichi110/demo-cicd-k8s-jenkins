@@ -8,7 +8,7 @@ Thumbs.db
 __pycache__/
 
 # credentials
-/dockerhub_password.txt
-/dockerhost_password.txt
-/kubeconfig
-/k8s/dockerhub_secret.yml
+_jenkins/secrets/dockerhub_password.txt
+_jenkins/secrets/dockerhost_password.txt
+_jenkins/secrets/kubeconfig
+_jenkins/secrets/dockerhub_secret.yml

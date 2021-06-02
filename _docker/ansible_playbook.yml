@@ -1,0 +1,33 @@
+- hosts: all
+  remote_user: root
+  tasks:
+
+    - name: Make .ssh
+      file: 
+        dest: /root/.ssh/ 
+        state: directory
+
+    - name: Check ssh key exist
+      stat:
+        path: /root/.ssh/id_rsa
+      register: ssh_key
+
+    - name: Generate ssh key if not exist
+      shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
+      when: not ssh_key.stat.exists
+
+    - name: apt install
+      apt:
+        update_cache: yes
+        name:
+        - aptitude
+        - docker-compose
+
+    - name: Start/Enable docker
+      systemd:
+        name: docker
+        state: started
+        daemon_reload: no
+        enabled: yes
+
+        

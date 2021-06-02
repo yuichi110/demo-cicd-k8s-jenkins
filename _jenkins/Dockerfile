@@ -13,6 +13,11 @@ RUN curl -L https://storage.googleapis.com/kubernetes-release/release/v1.20.7/bi
 COPY --chown=jenkins:jenkins ./jenkins.sh /usr/local/bin/jenkins.sh
 RUN chmod 0775 /usr/local/bin/jenkins.sh
 
+COPY --chown=jenkins:jenkins ./secrets/dockerhost_password.txt /secrets/dockerhost_password.txt
+COPY --chown=jenkins:jenkins ./secrets/dockerhub_password.txt /secrets/dockerhub_password.txt
+COPY --chown=jenkins:jenkins ./secrets/dockerhub_secret.yml /secrets/dockerhub_secret.yml
+COPY --chown=jenkins:jenkins ./secrets/kubeconfig /secrets/kubeconfig
+
 USER jenkins
 ENV JAVA_OPTS -Djava.awt.headless=true -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8
 EXPOSE 8080 50000

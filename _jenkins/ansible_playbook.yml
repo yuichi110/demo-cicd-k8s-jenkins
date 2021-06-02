@@ -1,21 +1,11 @@
 - hosts: all
-  remote_user: ubuntu
-  become: true
-  become_user: root
-  become_method: sudo
+  remote_user: root
   tasks:
 
     - name: Make .ssh
       file: 
         dest: /root/.ssh/ 
         state: directory
-
-    - name: Copy authorized_keys
-      copy:
-        remote_src: True
-        src: /home/ubuntu/.ssh/authorized_keys
-        dest: /root/.ssh/authorized_keys
-        mode: 0600
 
     - name: Check ssh key exist
       stat:
@@ -39,3 +29,43 @@
         state: started
         daemon_reload: no
         enabled: yes
+
+    - name: Copy docker-compose.yml
+      copy:
+        src: ./docker-compose.yml
+        dest: /root/docker-compose.yml
+
+    - name: Copy Dockerfile
+      copy:
+        src: ./Dockerfile
+        dest: /root/Dockerfile
+
+    - name: Copy jenkins.sh
+      copy:
+        src: ./jenkins.sh
+        dest: /root/jenkins.sh
+        
+    - name: Create secrets directory
+      file:
+        path: /root/secrets
+        state: directory
+        
+    - name: Copy secrets dockerhost_password.txt
+      copy:
+        src: ./secrets/dockerhost_password.txt
+        dest: /root/secrets/dockerhost_password.txt
+
+    - name: Copy secrets dockerhub_password.txt
+      copy:
+        src: ./secrets/dockerhub_password.txt
+        dest: /root/secrets/dockerhub_password.txt
+
+    - name: Copy secrets dockerhub_secret.yml
+      copy:
+        src: ./secrets/dockerhub_secret.yml
+        dest: /root/secrets/dockerhub_secret.yml
+
+    - name: Copy secrets kubeconfig
+      copy:
+        src: ./secrets/kubeconfig
+        dest: /root/secrets/kubeconfig
