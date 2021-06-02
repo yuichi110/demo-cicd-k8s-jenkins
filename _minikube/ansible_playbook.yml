@@ -59,3 +59,16 @@
         url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         dest: /usr/local/bin/minikube
         mode: 0111
+
+    - name: Copy start_minikube.sh
+      copy:
+        src: ./start_minikube.sh
+        dest: /root/start_minikube.sh
+        mode: 0755
+
+    - name: Copy export_kubeconfig.sh
+      copy:
+        src: ./export_kubeconfig.sh
+        dest: /root/export_kubeconfig.sh
+        mode: 0755
+        
