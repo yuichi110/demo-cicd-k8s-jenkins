@@ -23,7 +23,7 @@ pipeline {
         sh "docker context create remote --docker 'host=ssh://${BUILD_HOST}'; echo"
         sh "docker context use remote"
 
-        sh "docker-compose -H ssh://${BUILD_HOST} -f build.yml build"
+        sh "docker-compose -f build.yml build"
         sh "docker -H ssh://${BUILD_HOST} tag demo-cicd-k8s-jenkins-front ${DOCKERHUB_USER}/demo-cicd-k8s-jenkins-front:${BUILD_TIMESTAMP}"
         sh "docker -H ssh://${BUILD_HOST} tag demo-cicd-k8s-jenkins-back ${DOCKERHUB_USER}/demo-cicd-k8s-jenkins-back:${BUILD_TIMESTAMP}"
         sh "docker -H ssh://${BUILD_HOST} push ${DOCKERHUB_USER}/demo-cicd-k8s-jenkins-front:${BUILD_TIMESTAMP}"
