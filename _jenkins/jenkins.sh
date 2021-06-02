@@ -14,6 +14,11 @@ if [ ! -f ~/.ssh/id_rsa ]; then
     ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
 fi
 
+# Generate ssh config
+echo 'host *' > ~/.ssh/config
+echo '    StrictHostKeyChecking no' >> ~/.ssh/config
+echo '    UserKnownHostsFile=/dev/null' >> ~/.ssh/config
+
 # if `docker run` first argument start with `--` the user is passing jenkins launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
 

@@ -9,10 +9,10 @@ pipeline {
   stages {
     stage('Pre Check') {
       steps {
-        sh "test ./dockerhub_password.txt"
-        sh "test ./dockerhost_password.txt"
-        sh "test ./kubeconfig"
-        sh "test ./k8s/dockerhub_secret.yml"
+        sh "test /secrets/dockerhub_password.txt"
+        sh "test /secrets/dockerhost_password.txt"
+        sh "test /secrets/kubeconfig"
+        sh "test /secrets/k8s/dockerhub_secret.yml"
       }
     }
 
@@ -20,6 +20,8 @@ pipeline {
       steps {
         sh "cat /secrets/dockerhub_password.txt | docker login --username ${DOCKERHUB_USER} --password-stdin"
         sh "sshpass -f /secrets/dockerhost_password.txt ssh-copy-id ${BUILD_HOST}"
+        sh "docker context create remote --docker 'host=ssh://${BUILD_HOST}'; echo"
+        sh "docker context use remote"
 
         sh "docker-compose -H ssh://${BUILD_HOST} -f build.yml build"
         sh "docker -H ssh://${BUILD_HOST} tag demo-cicd-k8s-jenkins-front ${DOCKERHUB_USER}/demo-cicd-k8s-jenkins-front:${BUILD_TIMESTAMP}"
