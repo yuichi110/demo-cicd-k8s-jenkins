@@ -9,4 +9,3 @@ kubectl config view --minify | sed \
 	-e "s^/root/.minikube/profiles/minikube/client.crt^${CLIENT_CERTIFICATE}^g" \
 	-e "s^client-key:^client-key-data:^g" \
 	-e "s^/root/.minikube/profiles/minikube/client.key^${CLIENT_KEY}^g"
-
